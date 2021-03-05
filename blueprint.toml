@@ -1,0 +1,70 @@
+name = "BLUEPRINT-NAME"
+description = "LONG FORM DESCRIPTION OF BLUEPRINT"
+version = "0.0.1"
+modules = []
+groups = []
+
+# Install packages. Each individual package needs a block
+[[packages]]
+name = "PACKAGE1"
+version = "*"
+
+[[packages]]
+name = "PACKAGE2"
+version = "*"
+
+[customizations]
+hostname = "HOSTNAME"
+
+# Set ssh key for existing users
+[[customizations.sshkey]]
+user = "root"
+key = "PUBLIC-SSH-KEY"
+
+# Set timezone
+[customizations.timezone]
+timezone = "TIMEZONE"
+ntpservers = "NTP_SERVER"
+
+# Set locale
+[customizations.locale]
+languages = ["LANGUAGE"]
+keyboard = "KEYBOARD"
+
+# Create a new user
+# Replace PASSWORD-HASH with the actual password hash. To generate the hash, use a command such as:
+# python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
+# Replace PUBLIC-SSH-KEY with the actual public key
+# Only the user name is required - you can leave out anything else
+# Repeat this block for every user to be created
+[[customizations.user]]
+name = "USER-NAME"
+description = "USER-DESCRIPTION"
+password = "PASSWORD-HASH"
+key = "PUBLIC-SSH-KEY"
+home = "/home/USER-NAME/"
+shell = "/usr/bin/bash"
+groups = ["users", "wheel"]
+uid = NUMBER
+gid = NUMBER
+
+# Create a new group. The name is required but GID is optional
+# Repeat this block for every group to be created
+[[customizations.group]]
+name = "GROUP-NAME"
+gid = "NUMBER"
+
+# Configure firewall ports
+[customizations.firewall]
+port = ["PORTS"]
+
+# Configure firewall services
+[customizations.firewall.services]
+enabled = ["SERVICES"]
+disabled = ["SERVICES"]
+
+# Configure services
+[customizations.services]
+enabled = ["SERVICES"]
+disabled = ["SERVICES"]
+
